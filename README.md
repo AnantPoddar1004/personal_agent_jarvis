@@ -1,6 +1,6 @@
 # Jarvis · Training a 3B language model to use tools
 
-[Research report](docs/report.pdf) · [Presentation](docs/slides.pdf) · [Trained adapters](models/README.md)
+[Research report](docs/jarvis_tool_use_report.pdf) · [Presentation](docs/jarvis_tool_use_presentation.pdf) · [Trained adapters](models/README.md)
 
 Can a model that produces a valid tool call also decide which action to take next and when to stop? We studied this question with Qwen2.5-3B-Instruct in a simulated personal-assistant environment. The agent can look up contacts, check the time, schedule meetings, update a calendar, send messages, and end an episode. Each action produces feedback before the agent chooses its next step.
 
@@ -10,24 +10,24 @@ Supervised fine-tuning reached **94.4% tool exact match on 500 held-out examples
 
 | Experiment | What was measured or observed | Evidence |
 | --- | --- | --- |
-| Few-shot base model | Invented tool names and missed termination in example rollouts | [Report, §2](docs/report.pdf) |
-| Weighted QLoRA supervised fine-tuning | 100% format compliance and 94.4% tool exact match on the 500-example evaluation | [Evaluation summary](results/sft-evaluation.json) · [Scoring code](evaluation/stage2_evaluate.py) |
-| GRPO with rule-based rewards | Average training reward across three epochs was −2.62, −2.67, and −2.49. Repeated valid actions occurred even in selected high-reward trajectories. | [Run 002 metrics](results/rule-grpo.json) · [Reward implementation](training/training_tools.py) |
-| GRPO with a trajectory judge | The report gives approximate mean judge scores of 6.0, 6.7, and 7.3 out of 10. A selected scheduling example resolves the date, creates the event, and stops. | [Report, §4.3](docs/report.pdf) |
+| Few-shot base model | Invented tool names and missed termination in example rollouts | [Report, §2](docs/jarvis_tool_use_report.pdf) |
+| Weighted QLoRA supervised fine-tuning | 100% format compliance and 94.4% tool exact match on the 500-example evaluation | [Evaluation summary](results/trajectory_sft_evaluation.json) · [Scoring code](evaluation/evaluate_trajectory_sft.py) |
+| GRPO with rule-based rewards | Average training reward across three epochs was −2.62, −2.67, and −2.49. Repeated valid actions occurred even in selected high-reward trajectories. | [Run 002 metrics](results/rule_grpo_training_metrics.json) · [Reward implementation](training/simulated_tools_and_rewards.py) |
+| GRPO with a trajectory judge | The report gives approximate mean judge scores of 6.0, 6.7, and 7.3 out of 10. A selected scheduling example resolves the date, creates the event, and stops. | [Report, §4.3](docs/jarvis_tool_use_report.pdf) |
 
 The RL runs use 41 short tasks. Judge scores are training feedback, and the two reward designs use different scales. A held-out end-to-end success rate would be needed to quantify generalization. The linked simulator defines the per-step rewards used by the included code.
 
-![Training and validation curves for supervised fine-tuning](results/sft-curves.png)
+![Training and validation curves for supervised fine-tuning](results/trajectory_sft_training_curves.png)
 
 ## Inspect a rollout
 
 Run this from the repository root with Python 3. It reads a saved rollout locally and displays the actions and per-step rewards.
 
 ```sh
-python3 evaluation/replay.py
+python3 evaluation/replay_clock_rollout.py
 ```
 
-The clock example comes from the best of four sampled rollouts for that task in epoch three of run 002. In the judge-assisted example in [the report, §4.3.3](docs/report.pdf), the user asks to schedule lunch today at noon. The agent calls the clock once to resolve “today,” adds the one-hour event, and stops. The judge scored that trajectory 10/10.
+The clock example comes from the best of four sampled rollouts for that task in epoch three of run 002. In the judge-assisted example in [the report, §4.3.3](docs/jarvis_tool_use_report.pdf), the user asks to schedule lunch today at noon. The agent calls the clock once to resolve “today,” adds the one-hour event, and stops. The judge scored that trajectory 10/10.
 
 ## Run the experiments
 
@@ -37,13 +37,13 @@ Use Python 3.10 or 3.11 on a CUDA machine with BF16 support. Run all commands fr
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-python data/stage2_prepare_data.py
-python training/stage2_train.py
-python evaluation/stage2_evaluate.py
-python training/rl_train.py --model_path outputs/stage2/adapter --tasks data/tasks.json
+python data/prepare_trajectory_sft.py
+python training/train_trajectory_sft.py
+python evaluation/evaluate_trajectory_sft.py
+python training/train_rule_grpo.py --model_path outputs/trajectory_sft/adapter --tasks data/assistant_tasks.json
 ```
 
-To evaluate the released SFT weights, follow the [adapter instructions](models/README.md) and place the extracted SFT adapter in `outputs/stage2/adapter/`. The evaluator reads the included raw dataset directly. It downloads the base model and a sentence encoder on first use.
+To evaluate the released SFT weights, follow the [adapter instructions](models/README.md) and place the extracted SFT adapter in `outputs/trajectory_sft/adapter/`. The evaluator reads the included raw dataset directly. It downloads the base model and a sentence encoder on first use.
 
 ## Find the implementation
 
@@ -56,4 +56,4 @@ To evaluate the released SFT weights, follow the [adapter instructions](models/R
 | [models](models/) | Adapter provenance, download instructions, and checksums |
 | [docs](docs/) | Original research report and presentation |
 
-The archived filenames use `stage2_*` for **trajectory-augmented supervised training**. In the paper, “Stage 2” means **reinforcement learning**, implemented in `training/rl_train.py`. The original [prototype](sft.py) and [syntax examples](sft_data/) are retained for reference.
+The original [prototype](training/train_syntax_prototype.py) and [syntax examples](data/prototype/) are retained for reference.

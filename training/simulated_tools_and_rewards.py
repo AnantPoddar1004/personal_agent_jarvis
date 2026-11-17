@@ -1,5 +1,5 @@
 """
-training_tools.py
+simulated_tools_and_rewards.py
 Each tool validates its inputs and returns (result, reward).
 
 Reward structure per tool call:

@@ -1,10 +1,10 @@
 """
 GRPO RL Training Loop
 Trains Qwen2.5-3B-Instruct using Group Relative Policy Optimization.
-Rewards come from tool input validation in training_tools.py.
+Rewards come from tool input validation in simulated_tools_and_rewards.py.
 
 Usage:
-    python rl_train.py --model_path ./sft_output/final --tasks tasks.json
+    python training/train_rule_grpo.py --model_path outputs/trajectory_sft/adapter --tasks data/assistant_tasks.json
 
 Requirements:
     pip install transformers datasets peft trl accelerate torch
@@ -23,7 +23,7 @@ import torch.nn.functional as F
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from peft import PeftModel, LoraConfig, get_peft_model, TaskType
 
-from training_tools import (
+from simulated_tools_and_rewards import (
     zoom_schedule,
     email_send,
     text_send,
@@ -38,7 +38,7 @@ from training_tools import (
 # ──────────────────────────────────────────────
 
 MODEL_ID            = "Qwen/Qwen2.5-3B-Instruct"
-RUN_DIR             = "rl_run_002"
+RUN_DIR             = "outputs/rule_grpo"
 OUTPUT_DIR          = f"{RUN_DIR}/checkpoints"
 TRAJECTORY_DIR      = f"{RUN_DIR}/trajectories"
 METRICS_FILE        = f"{RUN_DIR}/metrics/training_metrics_rl.json"
@@ -52,7 +52,7 @@ MAX_STEPS           = 8         # Max tool calls per rollout before penalty
 MAX_NEW_TOKENS      = 128
 SAVE_EVERY_N_EPOCHS = 1
 
-# Reward constants (must match training_tools.py)
+# Reward constants (must match simulated_tools_and_rewards.py)
 REWARD_NO_STOP      = -2.0      # Never emitted stop token
 REWARD_MAX_STEPS    = -0.5      # Hit step limit without stop
 REPEAT_PENALTY      = -1.5      # Penalty for calling the same tool twice in a row
@@ -173,7 +173,7 @@ def load_policy_and_reference(model_path: str):
 
 def _execute_tool(tool_call: str):
     """
-    Internal helper — parses and routes tool call to training_tools.py.
+    Internal helper — parses and routes tool call to simulated_tools_and_rewards.py.
     Returns (result, reward, is_stop).
     """
     tool_call = tool_call.strip()
@@ -234,7 +234,7 @@ def _execute_tool(tool_call: str):
 
 def dispatch_tool(tool_call: str, prev_tool_call: str = None):
     """
-    Parses tool call string and routes to training_tools.py.
+    Parses tool call string and routes to simulated_tools_and_rewards.py.
     Applies REPEAT_PENALTY if this call is identical to the previous one.
     Returns (result, reward, is_stop).
     """
@@ -580,9 +580,9 @@ def train(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_path", type=str, default="outputs/stage2/adapter",
+    parser.add_argument("--model_path", type=str, default="outputs/trajectory_sft/adapter",
                         help="Path to SFT fine-tuned model / LoRA adapter")
-    parser.add_argument("--tasks",      type=str, default="data/tasks.json",
+    parser.add_argument("--tasks",      type=str, default="data/assistant_tasks.json",
                         help="Path to JSON file (list of task strings)")
     args = parser.parse_args()
     train(args)

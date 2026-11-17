@@ -1,6 +1,6 @@
 """
-stage2_prepare_data.py
-Tokenises sft_stage2_data.json and saves train/val splits as HuggingFace datasets.
+prepare_trajectory_sft.py
+Tokenises trajectory_sft_examples.json and saves train/val splits as HuggingFace datasets.
 
 Each saved example includes:
   input_ids, attention_mask, labels   — standard fields
@@ -18,8 +18,8 @@ from transformers import AutoTokenizer
 
 # ── config ─────────────────────────────────────────────────────────────────────
 MODEL_PATH  = "Qwen/Qwen2.5-3B-Instruct"
-DATA_PATH   = "data/sft_stage2_data.json"
-OUT_DIR     = "data/stage2_processed"
+DATA_PATH   = "data/trajectory_sft_examples.json"
+OUT_DIR     = "data/trajectory_sft_processed"
 MAX_SEQ_LEN = 512
 VAL_FRAC    = 0.10
 

@@ -1,6 +1,6 @@
 """
-prepare_data.py
-Loads sft_training_data_10k.json, formats into Qwen chat template,
+prepare_syntax_sft.py
+Loads syntax_sft_examples.json, formats into Qwen chat template,
 splits 90/10 train/val, saves HuggingFace Dataset to disk.
 """
 import json
@@ -8,8 +8,8 @@ import os
 from datasets import Dataset
 from transformers import AutoTokenizer
 
-DATA_PATH    = "data/sft_training_data_10k.json"
-OUTPUT_DIR   = "data/processed"
+DATA_PATH    = "data/syntax_sft_examples.json"
+OUTPUT_DIR   = "data/syntax_sft_processed"
 MODEL_PATH   = "Qwen/Qwen2.5-3B-Instruct"
 VAL_SPLIT    = 0.10
 SEED         = 42

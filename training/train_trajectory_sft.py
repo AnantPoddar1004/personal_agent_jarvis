@@ -1,5 +1,5 @@
 """
-stage2_train.py
+train_trajectory_sft.py
 QLoRA fine-tuning of Qwen2.5-3B-Instruct on trajectory-augmented SFT data.
 
 Loss = 1.0 * loss_tool + 0.3 * loss_reasoning
@@ -27,10 +27,10 @@ from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training, Ta
 
 # ── paths ──────────────────────────────────────────────────────────────────────
 MODEL_PATH   = "Qwen/Qwen2.5-3B-Instruct"
-DATA_DIR     = "data/stage2_processed"
-OUTPUT_DIR   = "outputs/stage2"
-CKPT_DIR     = "checkpoints/stage2"
-METRICS_FILE = f"{OUTPUT_DIR}/training_metrics_stage2.json"
+DATA_DIR     = "data/trajectory_sft_processed"
+OUTPUT_DIR   = "outputs/trajectory_sft"
+CKPT_DIR     = "checkpoints/trajectory_sft"
+METRICS_FILE = f"{OUTPUT_DIR}/trajectory_sft_training_metrics.json"
 
 # ── hyperparams ────────────────────────────────────────────────────────────────
 EPOCHS       = 2

@@ -28,7 +28,7 @@ from trl import SFTTrainer, DataCollatorForCompletionOnlyLM
 # CONFIG — edit these values before running
 # ──────────────────────────────────────────────
 
-DATA_PATH       = "sft_data/syntax_sft_training_data_10k.json"           # Path to your JSON data file
+DATA_PATH       = "data/prototype/prototype_examples.json"           # Path to your JSON data file
 OUTPUT_DIR      = "./sft_output"        # Where to save checkpoints & final model
 MODEL_ID        = "Qwen/Qwen2.5-3B-Instruct"
 

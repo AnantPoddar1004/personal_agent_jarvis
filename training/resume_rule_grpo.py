@@ -1,18 +1,18 @@
 """
-rl_resume.py — Resume RL training from a checkpoint epoch.
+resume_rule_grpo.py — Resume RL training from a checkpoint epoch.
 
-Imports everything from rl_train.py unchanged, then overrides only:
+Imports everything from train_rule_grpo.py unchanged, then overrides only:
   - START_EPOCH  : which epoch to start from (default: 3)
   - EPOCHS       : total epochs (must match original, default: 3)
   - model_path   : path to the checkpoint to resume from
 
-Usage (from your qwen-finetune directory):
-    !python rl_resume.py \
-        --model_path rl_run_002/checkpoints/epoch_2 \
-        --tasks tasks.json \
+Usage (from the repository root):
+    python training/resume_rule_grpo.py \
+        --model_path outputs/rule_grpo/checkpoints/epoch_2 \
+        --tasks data/assistant_tasks.json \
         --start_epoch 3
 
-rl_train.py is NOT modified.
+train_rule_grpo.py is NOT modified.
 """
 
 import json
@@ -23,8 +23,8 @@ from datetime import datetime
 import torch
 
 # ── Import everything from the original training script ──
-# Make sure rl_train.py is in the same directory (or on PYTHONPATH).
-import rl_train as rl
+# Make sure train_rule_grpo.py is in the same directory (or on PYTHONPATH).
+import train_rule_grpo as rl
 
 # ──────────────────────────────────────────────
 # RESUME BLOCK — only thing that changes
@@ -32,7 +32,7 @@ import rl_train as rl
 
 def train_resume(args):
     """
-    Identical to rl_train.train() but starts the epoch loop at args.start_epoch
+    Identical to train_rule_grpo.train() but starts the epoch loop at args.start_epoch
     and loads the existing metrics file (if any) so history is preserved.
     """
     # Load tasks
@@ -197,11 +197,11 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--model_path", type=str,
-        default="rl_run_002/checkpoints/epoch_2",
-        help="Path to checkpoint to resume from (e.g. rl_run_002/checkpoints/epoch_2)",
+        default="outputs/rule_grpo/checkpoints/epoch_2",
+        help="Path to checkpoint to resume from (e.g. outputs/rule_grpo/checkpoints/epoch_2)",
     )
     parser.add_argument(
-        "--tasks", type=str, default="data/tasks.json",
+        "--tasks", type=str, default="data/assistant_tasks.json",
         help="Path to JSON task list",
     )
     parser.add_argument(

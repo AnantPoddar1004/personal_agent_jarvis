@@ -410,11 +410,11 @@ def generate_dataset():
     return all_pairs
 
 def main():
-    print("Generating Stage 2 trajectory-augmented SFT dataset...")
+    print("Generating trajectory-augmented SFT dataset...")
     dataset = generate_dataset()
     print(f"\nTotal training pairs: {len(dataset)}")
 
-    out = "data/sft_stage2_data.json"
+    out = "data/trajectory_sft_examples.json"
     with open(out, "w") as f:
         json.dump(dataset, f, indent=2)
     print(f"Saved to {out}")

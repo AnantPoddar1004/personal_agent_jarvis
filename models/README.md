@@ -4,7 +4,7 @@ Both adapters load directly on **Qwen/Qwen2.5-3B-Instruct**. Each archive includ
 
 | Archive | Training provenance |
 | --- | --- |
-| [sft.tar.gz](https://github.com/AnantPoddar1004/personal_agent_jarvis/releases/download/research-v1/sft.tar.gz) | Weighted supervised training, archived as outputs/stage2/adapter |
+| [sft.tar.gz](https://github.com/AnantPoddar1004/personal_agent_jarvis/releases/download/research-v1/sft.tar.gz) | Weighted supervised training, archived as outputs/trajectory_sft/adapter |
 | [rule-grpo.tar.gz](https://github.com/AnantPoddar1004/personal_agent_jarvis/releases/download/research-v1/rule-grpo.tar.gz) | Final adapter from rule-based GRPO run 002 |
 
 From the repository root, download and verify both archives.
@@ -32,7 +32,7 @@ model = PeftModel.from_pretrained(base, adapter).eval()
 To run the SFT evaluator against the released weights from a fresh checkout:
 
 ```sh
-mkdir -p outputs/stage2
-cp -R models/assets/sft outputs/stage2/adapter
-python evaluation/stage2_evaluate.py
+mkdir -p outputs/trajectory_sft
+cp -R models/assets/sft outputs/trajectory_sft/adapter
+python evaluation/evaluate_trajectory_sft.py
 ```

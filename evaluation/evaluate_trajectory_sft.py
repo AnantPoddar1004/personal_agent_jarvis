@@ -1,6 +1,6 @@
 """
-stage2_evaluate.py
-Evaluates the stage2 adapter on the validation set.
+evaluate_trajectory_sft.py
+Evaluates the trajectory SFT adapter on the validation set.
 
 Three-tier scoring:
   1. format_ok      — output contains <reasoning>...</reasoning> then <tool>...</tool>
@@ -22,9 +22,9 @@ from sentence_transformers import SentenceTransformer
 
 # ── paths ──────────────────────────────────────────────────────────────────────
 BASE_MODEL  = "Qwen/Qwen2.5-3B-Instruct"
-ADAPTER_DIR = "outputs/stage2/adapter"
-RAW_DATA    = "data/sft_stage2_data.json"
-OUTPUT_FILE = "outputs/stage2/eval_results_stage2.json"
+ADAPTER_DIR = "outputs/trajectory_sft/adapter"
+RAW_DATA    = "data/trajectory_sft_examples.json"
+OUTPUT_FILE = "outputs/trajectory_sft/trajectory_sft_evaluation.json"
 
 MAX_NEW_TOKENS = 250
 EVAL_SAMPLES   = 500

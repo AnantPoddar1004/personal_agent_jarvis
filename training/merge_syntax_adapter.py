@@ -1,5 +1,5 @@
 """
-merge_adapter.py
+merge_syntax_adapter.py
 Merges the QLoRA adapter into full model weights for downstream use.
 Output is a standard HuggingFace model at outputs/merged_model
 """

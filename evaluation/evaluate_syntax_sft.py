@@ -1,5 +1,5 @@
 """
-evaluate.py
+evaluate_syntax_sft.py
 Evaluates the fine-tuned adapter on the validation set.
 - Exact match on: tool name, function, all fields except subject/body
 - Semantic match (cosine >= 0.80) on: email subject, email body, text body
@@ -23,7 +23,7 @@ from tqdm import tqdm
 # --------------------------------------------------------------------------
 BASE_MODEL_PATH  = "Qwen/Qwen2.5-3B-Instruct"
 ADAPTER_PATH     = "outputs/adapter"
-DATA_DIR         = "data/processed"
+DATA_DIR         = "data/syntax_sft_processed"
 RESULTS_PATH     = "outputs/eval_results.json"
 EMBED_MODEL      = "all-MiniLM-L6-v2"
 SEM_THRESHOLD    = 0.80
@@ -184,10 +184,10 @@ def main():
     val_ds = load_from_disk(os.path.join(DATA_DIR, "val"))
 
     # Re-load original val pairs from JSON for clean scoring
-    with open("data/sft_training_data_10k.json") as f:
+    with open("data/syntax_sft_examples.json") as f:
         all_data = json.load(f)
 
-    # Rebuild val indices using same seed as prepare_data.py
+    # Rebuild val indices using same seed as prepare_syntax_sft.py
     from datasets import Dataset as HFDataset
     full_ds = HFDataset.from_list(all_data)
     split = full_ds.train_test_split(test_size=0.10, seed=42)

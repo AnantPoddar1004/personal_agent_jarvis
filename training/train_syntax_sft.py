@@ -1,5 +1,5 @@
 """
-train.py
+train_syntax_sft.py
 QLoRA fine-tuning of Qwen 2.5 3B Instruct using TRL SFTTrainer.
 Saves adapter weights to outputs/adapter
 Saves training plots  to outputs/plots/
@@ -28,7 +28,7 @@ from trl import SFTTrainer, DataCollatorForCompletionOnlyLM
 # CONFIG
 # --------------------------------------------------------------------------
 MODEL_PATH   = "Qwen/Qwen2.5-3B-Instruct"
-DATA_DIR     = "data/processed"
+DATA_DIR     = "data/syntax_sft_processed"
 OUTPUT_DIR   = "outputs/adapter"
 PLOTS_DIR    = "outputs/plots"
 LOG_DIR      = "logs"
