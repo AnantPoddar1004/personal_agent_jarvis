@@ -1,6 +1,5 @@
 # Jarvis · Training a 3B language model to use tools
 
-**Anant Poddar, Vihaan Shah, and Aanand Patel** · CS 496, Agent AI  
 [Research report](docs/report.pdf) · [Presentation](docs/slides.pdf) · [Trained adapters](models/README.md)
 
 Can a model that produces a valid tool call also decide which action to take next and when to stop? We studied this question with Qwen2.5-3B-Instruct in a simulated personal-assistant environment. The agent can look up contacts, check the time, schedule meetings, update a calendar, send messages, and end an episode. Each action produces feedback before the agent chooses its next step.
