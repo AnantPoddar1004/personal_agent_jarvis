@@ -1,1 +1,12 @@
-venv 
+.DS_Store
+.env
+.venv/
+venv/
+__pycache__/
+models/assets/
+outputs/
+rl_run_*/
+checkpoints/
+logs/
+sft_output/
+data/*processed/

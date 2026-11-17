@@ -1,0 +1,9 @@
+{
+  "n_eval": 500,
+  "format_ok_pct": 1.0,
+  "reasoning_cosine_mean": 0.9981204594286741,
+  "reasoning_cosine_above_thresh": 0.996,
+  "tool_exact_mean": 0.944,
+  "tool_cosine_mean": 0.946398213765878,
+  "tool_exact_pct_perfect": 0.944
+}

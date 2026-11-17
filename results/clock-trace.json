@@ -1,0 +1,34 @@
+{
+  "task": "What time is it right now?",
+  "best_reward": -0.5639999999999998,
+  "best_trajectory": [
+    {
+      "step_num": 1,
+      "tool_call": "clock|get_date_time",
+      "tool_result": "2026-03-09 04:49:17.633500",
+      "reward": 0.5,
+      "response": "<tool>clock|get_date_time</tool>"
+    },
+    {
+      "step_num": 2,
+      "tool_call": "clock|get_date_time",
+      "tool_result": "2026-03-09 04:49:19.163076",
+      "reward": -1.4249999999999998,
+      "response": "<tool>clock|get_date_time</tool>"
+    },
+    {
+      "step_num": 3,
+      "tool_call": "clock|get_date_time",
+      "tool_result": "2026-03-09 04:49:21.588532",
+      "reward": -1.35375,
+      "response": "<tool>clock|get_date_time</tool>"
+    },
+    {
+      "step_num": 4,
+      "tool_call": "stop",
+      "tool_result": null,
+      "reward": 1.7147499999999998,
+      "response": "<tool>stop</tool>"
+    }
+  ]
+}
